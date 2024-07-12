@@ -1,26 +1,26 @@
 import Link from "next/link";
 import dbConnect from "../lib/dbConnect";
-import Pet, { Pets } from "../models/Pet";
+import Recipe, { Recipes } from "../models/Recipe";
 import { GetServerSideProps } from "next";
 
 type Props = {
-  pets: Pets[];
+  recipes: Recipes[];
 };
 
-const Index = ({ pets }: Props) => {
+const Index = ({ recipes }: Props) => {
   return (
     <>
-      {pets.map((pet) => (
-        <div key={pet._id}>
+      {recipes.map((recipe) => (
+        <div key={recipe._id}>
           <div className="card">
-            <img src={pet.image_url} />
-            <h5 className="pet-name">{pet.name}</h5>
+            <img src={recipe.image_url} />
+            <h5 className="pet-name">{recipe.recipe_name}</h5>
             <div className="main-content">
-              <p className="pet-name">{pet.name}</p>
-              <p className="owner">Owner: {pet.owner_name}</p>
+              <p className="pet-name">{recipe.recipe_name}</p>
+              {/* <p className="owner">Owner: {pet.owner_name}</p> */}
 
               {/* Extra Pet Info: Likes and Dislikes */}
-              <div className="likes info">
+              {/* <div className="likes info">
                 <p className="label">Likes</p>
                 <ul>
                   {pet.likes.map((data, index) => (
@@ -35,13 +35,15 @@ const Index = ({ pets }: Props) => {
                     <li key={index}>{data} </li>
                   ))}
                 </ul>
-              </div>
+              </div> */}
 
               <div className="btn-container">
-                <Link href={{ pathname: "/[id]/edit", query: { id: pet._id } }}>
+                <Link
+                  href={{ pathname: "/[id]/edit", query: { id: recipe._id } }}
+                >
                   <button className="btn edit">Edit</button>
                 </Link>
-                <Link href={{ pathname: "/[id]", query: { id: pet._id } }}>
+                <Link href={{ pathname: "/[id]", query: { id: recipe._id } }}>
                   <button className="btn view">View</button>
                 </Link>
               </div>
@@ -58,15 +60,15 @@ export const getServerSideProps: GetServerSideProps<Props> = async () => {
   await dbConnect();
 
   /* find all the data in our database */
-  const result = await Pet.find({});
+  const result = await Recipe.find({});
 
   /* Ensures all objectIds and nested objectIds are serialized as JSON data */
-  const pets = result.map((doc) => {
-    const pet = JSON.parse(JSON.stringify(doc));
-    return pet;
+  const recipes = result.map((doc) => {
+    const recipe = JSON.parse(JSON.stringify(doc));
+    return recipe;
   });
 
-  return { props: { pets: pets } };
+  return { props: { recipes: recipes } };
 };
 
 export default Index;

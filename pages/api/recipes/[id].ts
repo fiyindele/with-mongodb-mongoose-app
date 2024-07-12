@@ -1,10 +1,10 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import dbConnect from "../../../lib/dbConnect";
-import Pet from "../../../models/Pet";
+import Recipe from "../../../models/Recipe";
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse,
+  res: NextApiResponse
 ) {
   const {
     query: { id },
@@ -16,11 +16,11 @@ export default async function handler(
   switch (method) {
     case "GET" /* Get a model by its ID */:
       try {
-        const pet = await Pet.findById(id);
-        if (!pet) {
+        const recipe = await Recipe.findById(id);
+        if (!recipe) {
           return res.status(400).json({ success: false });
         }
-        res.status(200).json({ success: true, data: pet });
+        res.status(200).json({ success: true, data: recipe });
       } catch (error) {
         res.status(400).json({ success: false });
       }
@@ -28,14 +28,14 @@ export default async function handler(
 
     case "PUT" /* Edit a model by its ID */:
       try {
-        const pet = await Pet.findByIdAndUpdate(id, req.body, {
+        const recipe = await Recipe.findByIdAndUpdate(id, req.body, {
           new: true,
           runValidators: true,
         });
-        if (!pet) {
+        if (!recipe) {
           return res.status(400).json({ success: false });
         }
-        res.status(200).json({ success: true, data: pet });
+        res.status(200).json({ success: true, data: recipe });
       } catch (error) {
         res.status(400).json({ success: false });
       }
@@ -43,8 +43,8 @@ export default async function handler(
 
     case "DELETE" /* Delete a model by its ID */:
       try {
-        const deletedPet = await Pet.deleteOne({ _id: id });
-        if (!deletedPet) {
+        const deletedRecipe = await Recipe.deleteOne({ _id: id });
+        if (!deletedRecipe) {
           return res.status(400).json({ success: false });
         }
         res.status(200).json({ success: true, data: {} });

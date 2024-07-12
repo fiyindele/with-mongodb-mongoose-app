@@ -8,13 +8,13 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
       <Head>
-        <title>Pet Care App</title>
+        <title>Recipe App</title>
       </Head>
 
       <div className="top-bar">
         <div className="nav">
           <Link href="/">Home</Link>
-          <Link href="/new">Add Pet</Link>
+          <Link href="/new">Add Recipe</Link>
         </div>
 
         <img
